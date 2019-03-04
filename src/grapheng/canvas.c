@@ -31,13 +31,13 @@ void free_canvas() {
 }
 
 void draw_pixel(int R, int G, int B, int x, int y) {
-    if (current_canvas.img_header.biHeight - y < 0 || y >= current_canvas.img_header.biHeight ||
-        current_canvas.img_header.biWidth - x < 0 || x >= current_canvas.img_header.biWidth){
+    if (current_canvas.img_header.biHeight - y < 0 || current_canvas.img_header.biHeight - y >= current_canvas.img_header.biHeight ||
+        current_canvas.img_header.biWidth - x < 0 || current_canvas.img_header.biWidth - x >= current_canvas.img_header.biWidth){
         printf("cgdraw: \033[0;33mwarning\033[0m: you are drawing pixles outside the canvas which will be droped\n");
         return;
     }
 
-    bmp_pixel_init(&current_canvas.img_pixels[current_canvas.img_header.biHeight - y][x], R, G, B);
+    bmp_pixel_init(&current_canvas.img_pixels[current_canvas.img_header.biHeight - y - 1][x], R, G, B);
 }
 
 int save_canvas(const char *path) {

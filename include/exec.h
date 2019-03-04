@@ -35,6 +35,7 @@ inline int _exec_save_canvas(const char *path) {
             printf("cgdraw: \033[0;31merror\033[0m: failed to save bmp to %s\n", path);
             return EXEC_ERROR;
         }
+        printf("cgdraw: \033[0;32minfo\033[0m: successfully saved canvas to %s\n", path);
         return EXEC_OK;
     }
     printf("cgdraw: \033[0;31merror\033[0m: no canvas to be saved\n");
@@ -101,6 +102,37 @@ inline int _exec_draw_ellipse(uint32_t id, float x, float y, float rx, float ry)
         object->color.B = current_color.B;
         objmgr_commit_object(object);
         superdraw_ellipse(x, y, rx, ry);
+        return EXEC_OK;
+    }
+    printf("cgdraw: \033[0;31merror\033[0m: no canvas to draw\n");
+    return EXEC_ERROR;
+}
+
+inline int _exec_draw_curve(uint32_t id, int n, uint8_t algorithm, float *xarray, float *yarray) {
+    cgdraw_object *object = NULL;
+    if (canvas_valid) {
+        object = malloc(sizeof(cgdraw_object));
+        object->type = T_POLYGON;
+        object->id = id;
+        object->n = n;
+        object->algorithm = algorithm;
+        // xarray and yarray are not freed by free_isntr
+        // thus we can use them here
+        object->xarray = xarray;
+        object->yarray = yarray;
+        object->color.R = current_color.R;
+        object->color.G = current_color.G;
+        object->color.B = current_color.B;
+        objmgr_commit_object(object);
+        if (algorithm == A_BEZIER)
+            superdraw_curve_bezier(n, xarray, yarray);
+        else if (algorithm == A_B_SPLINE)
+            printf("cdgraw: Unimplemented\n");
+        else {
+            // should not be here
+            printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw curve. THIS SHOULD NOT HAPPEN\n");
+            return EXEC_ERROR;
+        }
         return EXEC_OK;
     }
     printf("cgdraw: \033[0;31merror\033[0m: no canvas to draw\n");

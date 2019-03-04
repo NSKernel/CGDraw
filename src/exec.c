@@ -103,7 +103,7 @@ int _exec_draw_polygon(uint32_t id, int n, uint8_t algorithm, float *xarray, flo
         }
         else {
             // should not be here
-            printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw line. THIS SHOULD NOT HAPPEN\n");
+            printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw polygon. THIS SHOULD NOT HAPPEN\n");
             return EXEC_ERROR;
         }
         return EXEC_OK;
@@ -149,7 +149,7 @@ int exec_next_instr() {
           return_code = _exec_draw_ellipse(instr->id, instr->x, instr->y, instr->rx, instr->ry);
           break;
         case I_DRAW_CURVE:
-          printf("cgdraw: unimplemented\n");
+          return_code = _exec_draw_curve(instr->id, instr->n, instr->algorithm, instr->xarray, instr->yarray);
           break;
         case I_TRANSLATE:
           printf("cgdraw: unimplemented\n");

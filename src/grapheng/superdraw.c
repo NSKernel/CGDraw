@@ -9,14 +9,26 @@
  */
 
 #include <math.h>
+#include <stdlib.h>
 
 #include <grapheng.h>
 #include <exec.h>
 
+#define BEZIER_STEP   0.001
+
 void superdraw_line_dda(float x1, float y1, float x2, float y2) {
-    int i;
+    int i, start, end;
     float dx, dy, epsl;
     float x, y, xIncre, yIncre;
+
+    if ((int)(x1 + 0.5) == (int)(x2 + 0.5)) {
+        start = (((int)(y1 + 0.5) < (int)(y2 + 0.5)) ? ((int)(y1 + 0.5)) : ((int)(y2 + 0.5)));
+        end = (((int)(y1 + 0.5) > (int)(y2 + 0.5)) ? ((int)(y1 + 0.5)) : ((int)(y2 + 0.5)));
+        for (i = start; i <= end; i++) {
+            draw_pixel(current_color.R, current_color.G, current_color.B, (int)(x1 + 0.5), i);
+        }
+    }
+
     dx = x2 - x1;
     dy = y2 - y1;
     x = x1;
@@ -39,7 +51,16 @@ void superdraw_line_bresenham(float x1, float y1, float x2, float y2) {
     char steep = fabs(y2 - y1) > fabs (x2 - x1);
     float temp;
     float deltax, deltay, error, deltaerr;
-    int x, y, ystep;
+    int x, y, ystep, i, start, end;
+
+    if ((int)(x1 + 0.5) == (int)(x2 + 0.5)) {
+        start = (((int)(y1 + 0.5) < (int)(y2 + 0.5)) ? ((int)(y1 + 0.5)) : ((int)(y2 + 0.5)));
+        end = (((int)(y1 + 0.5) > (int)(y2 + 0.5)) ? ((int)(y1 + 0.5)) : ((int)(y2 + 0.5)));
+        for (i = start; i <= end; i++) {
+            draw_pixel(current_color.R, current_color.G, current_color.B, (int)(x1 + 0.5), i);
+        }
+    }
+
     if (steep) {
         temp = x1;
         x1 = y1;
@@ -139,4 +160,36 @@ void superdraw_ellipse(float x, float y, float rx, float ry) {
             d2 = d2 + dx - dy + (rx * rx);
         }
     } while(yi >= 0);
+}
+
+void superdraw_curve_bezier(int n, float *xarray, float *yarray) {
+    int i, k;
+    float t = 0;
+    float xlast = xarray[0];
+    float ylast = yarray[0];
+    float *xworkspace = malloc(sizeof(float) * n);
+    float *yworkspace = malloc(sizeof(float) * n);
+
+    while ((t += BEZIER_STEP) < 1) {
+        // get next point
+        // k = 0
+        for (i = 0; i < n; i++) {
+            xworkspace[i] = xarray[i];
+            yworkspace[i] = yarray[i];
+        }
+        for (k = 1; k <= n; k++) {
+            for (i = 0; i < n - k; i++) {
+                xworkspace[i] = (1 - t) * xworkspace[i] + t * xworkspace[i + 1];
+                yworkspace[i] = (1 - t) * yworkspace[i] + t * yworkspace[i + 1];
+            }
+        }
+        superdraw_line_bresenham(xlast, ylast, xworkspace[0], yworkspace[0]);
+        xlast = xworkspace[0];
+        ylast = yworkspace[0];
+    }
+
+    superdraw_line_bresenham(xlast, ylast, xarray[n - 1], yarray[n - 1]);
+
+    free(xworkspace);
+    free(yworkspace);
 }
