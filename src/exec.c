@@ -16,6 +16,7 @@
 #include <compiler.h>
 #include <grapheng.h>
 #include <objmgr.h>
+#include <objops.h>
 
 char *algorithm_friendly_name[7] = {"Naive", "DDA", "Bresenham", "Bezier", "B-spline", "Cohen-Sutherland", "Liang-Barsky"};
 
@@ -152,7 +153,8 @@ int exec_next_instr() {
           return_code = _exec_draw_curve(instr->id, instr->n, instr->algorithm, instr->xarray, instr->yarray);
           break;
         case I_TRANSLATE:
-          printf("cgdraw: unimplemented\n");
+          obj_translate(instr->id, instr->dx, instr->dy);
+          return_code = EXEC_OK;
           break;
         case I_ROTATE:
           printf("cgdraw: unimplemented\n");

@@ -112,7 +112,7 @@ inline int _exec_draw_curve(uint32_t id, int n, uint8_t algorithm, float *xarray
     cgdraw_object *object = NULL;
     if (canvas_valid) {
         object = malloc(sizeof(cgdraw_object));
-        object->type = T_POLYGON;
+        object->type = T_CURVE;
         object->id = id;
         object->n = n;
         object->algorithm = algorithm;
