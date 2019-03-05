@@ -17,10 +17,6 @@ OBJS = $(addprefix build/, $(addsuffix .o,  $(notdir $(basename $(SRCS)))))
 LD = ld
 CC = gcc
 
-VERSION = 0
-SUBVERSION = 1
-BUILD = 1
-
 VERSIONSTR = "\"$(VERSION)\""
 SUBVERSIONSTR = "\"$(SUBVERSION)\""
 DEBUG ?= 1
