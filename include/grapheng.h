@@ -36,5 +36,6 @@ void superdraw_line_dda(float x1, float y1, float x2, float y2);
 void superdraw_line_bresenham(float x1, float y1, float x2, float y2);
 void superdraw_ellipse(float x, float y, float rx, float ry);
 void superdraw_curve_bezier(int n, float *xarray, float *yarray);
+void superdraw_curve_b_spline(int n, float *xarray, float *yarray);
 
 #endif

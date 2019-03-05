@@ -7,9 +7,9 @@
 #   Makefile
 #
 
-DEBUG = 0
+include config
 
-CFLAGS	= -O2 -Wall -Werror -c -I./include -MD
+CFLAGS	= -Wall -Werror -c -I./include -MD
 
 SRCS = $(shell find src -name "*.c")
 OBJS = $(addprefix build/, $(addsuffix .o,  $(notdir $(basename $(SRCS)))))
@@ -28,6 +28,7 @@ ifeq ($(DEBUG), 1)
     CFLAGS += -DDEBUG -ggdb
 	BUILDSTR = "\"$(BUILD)-debug\""
 else
+	CFLAGS += -O2
 	BUILDSTR = "\"$(BUILD)\""
 endif
 

@@ -14,7 +14,7 @@
 #include <grapheng.h>
 #include <exec.h>
 
-#define BEZIER_STEP   0.001
+#define CURVE_STEP   0.001
 
 void superdraw_line_dda(float x1, float y1, float x2, float y2) {
     int i, start, end;
@@ -170,7 +170,7 @@ void superdraw_curve_bezier(int n, float *xarray, float *yarray) {
     float *xworkspace = malloc(sizeof(float) * n);
     float *yworkspace = malloc(sizeof(float) * n);
 
-    while ((t += BEZIER_STEP) < 1) {
+    while ((t += CURVE_STEP) < 1) {
         // get next point
         // k = 0
         for (i = 0; i < n; i++) {
@@ -192,4 +192,34 @@ void superdraw_curve_bezier(int n, float *xarray, float *yarray) {
 
     free(xworkspace);
     free(yworkspace);
+}
+
+void superdraw_curve_b_spline(int n, float *xarray, float *yarray) {
+    double t, t2, t3;
+    double x, y, xlast, ylast;
+
+    for(int k = 0; k < n - 3; k++)
+    {
+        double a0 = (xarray[k] + 4 * xarray[k+1] + xarray[k+2]) / 6;
+        double a1 = -(xarray[k] - xarray[k+2]) / 2;
+        double a2 = (xarray[k+2] - 2 * xarray[k+1] + xarray[k]) / 2;
+        double a3 = -(xarray[k] - 3 * xarray[k+1] + 3 * xarray[k+2] - xarray[k+3]) / 6;
+        double b0 = (yarray[k] + 4 * yarray[k+1] + yarray[k+2]) / 6;
+        double b1 = -(yarray[k] - yarray[k+2]) / 2;
+        double b2 = (yarray[k+2] - 2 * yarray[k+1] + yarray[k]) / 2;
+        double b3 = -(yarray[k] - 3 * yarray[k+1] + 3 * yarray[k+2] - yarray[k+3]) / 6;
+        xlast = a0;
+        ylast = b0;
+        for (t = CURVE_STEP; t < 1; t += CURVE_STEP)
+        {
+            t2 = t * t;
+            t3 = t2 * t;
+
+            x = a0 + a1 * t + a2 * t2 + a3 * t3;
+            y = b0 + b1 * t + b2 * t2 + b3 * t3;
+            superdraw_line_dda(xlast, ylast, x, y);
+            xlast = x;
+            ylast = y;
+        }
+    }
 }

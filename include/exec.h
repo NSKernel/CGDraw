@@ -127,7 +127,7 @@ inline int _exec_draw_curve(uint32_t id, int n, uint8_t algorithm, float *xarray
         if (algorithm == A_BEZIER)
             superdraw_curve_bezier(n, xarray, yarray);
         else if (algorithm == A_B_SPLINE)
-            printf("cdgraw: Unimplemented\n");
+            superdraw_curve_b_spline(n, xarray, yarray);
         else {
             // should not be here
             printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw curve. THIS SHOULD NOT HAPPEN\n");
