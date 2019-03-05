@@ -40,5 +40,4 @@ void obj_translate(int id, float dx, float dy) {
           printf("cgdraw: \033[0;31minternel error\033[0m: unexpected object type in object translate\n");
           break;
     }
-    objmgr_full_redraw();
 }

@@ -65,8 +65,8 @@ cgdraw_object *objmgr_get_object(int id) {
     return NULL;
 }
 
-int objmgr_full_redraw() {
-    int i = 0;
+int objmgr_full_render() {
+    int i, j;
     int R_backup, G_backup, B_backup;
     int width, height;
 
@@ -100,14 +100,14 @@ int objmgr_full_redraw() {
               break;
             case T_POLYGON:
               if (objects[i]->algorithm == A_DDA) {
-                  for (i = 0; i < objects[i]->n - 1; i++) {
-                      superdraw_line_dda(objects[i]->xarray[i], objects[i]->yarray[i], objects[i]->xarray[i + 1], objects[i]->yarray[i + 1]);
+                  for (j = 0; j < objects[i]->n - 1; j++) {
+                      superdraw_line_dda(objects[i]->xarray[j], objects[i]->yarray[j], objects[i]->xarray[j + 1], objects[i]->yarray[j + 1]);
                   }
                   superdraw_line_dda(objects[i]->xarray[objects[i]->n - 1], objects[i]->yarray[objects[i]->n - 1], objects[i]->xarray[0], objects[i]->yarray[0]);
               }
               else if (objects[i]->algorithm == A_BRESENHAM) {
-                  for (i = 0; i < objects[i]->n - 1; i++) {
-                    superdraw_line_bresenham(objects[i]->xarray[i], objects[i]->yarray[i], objects[i]->xarray[i + 1], objects[i]->yarray[i + 1]);
+                  for (j = 0; j < objects[i]->n - 1; j++) {
+                    superdraw_line_bresenham(objects[i]->xarray[j], objects[i]->yarray[j], objects[i]->xarray[j + 1], objects[i]->yarray[j + 1]);
                   }
                   superdraw_line_bresenham(objects[i]->xarray[objects[i]->n - 1], objects[i]->yarray[objects[i]->n - 1], objects[i]->xarray[0], objects[i]->yarray[0]);
               }

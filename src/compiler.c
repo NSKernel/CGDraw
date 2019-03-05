@@ -16,6 +16,18 @@
 #include <instr.h>
 #include <compiler.h>
 
+extern inline struct instruction *_parse_reset_canvas();
+extern inline struct instruction *_parse_save_canvas();
+extern inline struct instruction *_parse_set_color();
+extern inline struct instruction *_parse_set_color();
+extern inline struct instruction *_parse_draw_line();
+extern inline struct instruction *_parse_draw_ellipse();
+extern inline struct instruction *_parse_translate();
+extern inline struct instruction *_parse_rotate();
+extern inline struct instruction *_parse_scale();
+extern inline struct instruction *_parse_clip();   
+
+
 /*
     _parse_draw_polygon has a loop with a local variable i
     thus shall not be inlined.

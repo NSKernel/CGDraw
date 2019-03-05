@@ -33,7 +33,8 @@ inline struct instruction *_parse_reset_canvas()
     return instr;
 };
 
-inline struct instruction *_parse_save_canvas() {
+inline struct instruction *_parse_save_canvas() 
+{
     struct instruction *instr = malloc(sizeof(struct instruction));
 
     instr->opcode = I_SAVE_CANVAS;

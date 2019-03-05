@@ -5,7 +5,7 @@
     A lab of Computer Graphics at NJU
 
     superdraw.c
-    Randerer
+    Renderer
  */
 
 #include <math.h>

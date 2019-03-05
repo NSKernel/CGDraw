@@ -55,6 +55,6 @@ void objmgr_close();
 int objmgr_init();
 cgdraw_object *objmgr_get_object(int id);
 int objmgr_commit_object(cgdraw_object *object);
-int objmgr_full_redraw();
+int objmgr_full_render();
 
 #endif

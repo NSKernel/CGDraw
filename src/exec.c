@@ -20,6 +20,13 @@
 
 char *algorithm_friendly_name[7] = {"Naive", "DDA", "Bresenham", "Bezier", "B-spline", "Cohen-Sutherland", "Liang-Barsky"};
 
+extern inline int _exec_reset_canvas(int width, int height);
+extern inline int _exec_save_canvas(const char *path);
+extern inline int _exec_set_color(int R, int G, int B);
+extern inline int _exec_draw_line(uint32_t id, float x1, float y1, float x2, float y2, uint8_t algorithm);
+extern inline int _exec_draw_ellipse(uint32_t id, float x, float y, float rx, float ry);
+extern inline int _exec_draw_curve(uint32_t id, int n, uint8_t algorithm, float *xarray, float *yarray);
+
 #ifdef DEBUG
 
 void _print_instruction(struct instruction *instr) {
@@ -75,8 +82,12 @@ void _print_instruction(struct instruction *instr) {
 
 int _exec_draw_polygon(uint32_t id, int n, uint8_t algorithm, float *xarray, float *yarray) {
     cgdraw_object *object = NULL;
-    int i;
     if (canvas_valid) {
+        if (algorithm != A_DDA && algorithm != A_BRESENHAM) {
+            // should not be here
+            printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw polygon. THIS SHOULD NOT HAPPEN\n");
+            return EXEC_ERROR;
+        }
         object = malloc(sizeof(cgdraw_object));
         object->type = T_POLYGON;
         object->id = id;
@@ -90,23 +101,6 @@ int _exec_draw_polygon(uint32_t id, int n, uint8_t algorithm, float *xarray, flo
         object->color.G = current_color.G;
         object->color.B = current_color.B;
         objmgr_commit_object(object);
-        if (algorithm == A_DDA) {
-            for (i = 0; i < n - 1; i++) {
-                superdraw_line_dda(xarray[i], yarray[i], xarray[i + 1], yarray[i + 1]);
-            }
-            superdraw_line_dda(xarray[n - 1], yarray[n - 1], xarray[0], yarray[0]);
-        }
-        else if (algorithm == A_BRESENHAM) {
-            for (i = 0; i < n - 1; i++) {
-                superdraw_line_bresenham(xarray[i], yarray[i], xarray[i + 1], yarray[i + 1]);
-            }
-            superdraw_line_bresenham(xarray[n - 1], yarray[n - 1], xarray[0], yarray[0]);
-        }
-        else {
-            // should not be here
-            printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw polygon. THIS SHOULD NOT HAPPEN\n");
-            return EXEC_ERROR;
-        }
         return EXEC_OK;
     }
     printf("cgdraw: \033[0;31merror\033[0m: no canvas to draw\n");
