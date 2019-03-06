@@ -24,6 +24,7 @@
 #define T_POLYGON    0x2
 #define T_ELLIPSE    0x3
 #define T_CURVE      0x4
+#define T_ELLIPSE_R  0x5
 
 typedef struct cgdraw_object_t {
     uint32_t id;
@@ -45,6 +46,7 @@ typedef struct cgdraw_object_t {
         float ry;
         float y2;
     };
+    float r;
     float *xarray;
     float *yarray;
     uint8_t algorithm;

@@ -9,6 +9,7 @@
  */
 
 #include <stdlib.h>
+#include <math.h>
 
 #include <libbmp.h>
 
@@ -37,5 +38,16 @@ void superdraw_line_bresenham(float x1, float y1, float x2, float y2);
 void superdraw_ellipse(float x, float y, float rx, float ry);
 void superdraw_curve_bezier(int n, float *xarray, float *yarray);
 void superdraw_curve_b_spline(int n, float *xarray, float *yarray);
+void superdraw_ellipse_rotate(float x, float y, float rx, float ry, float r);
+
+static inline float _rotate_point_x(float x, float y, float xr, float yr, float r) 
+{
+    return (xr + (x - xr) * cos(M_PI * 2 * r / 360.0) - (y - yr) * sin(M_PI * 2 *  r / 360.0));
+};
+
+static inline float _rotate_point_y(float x, float y, float xr, float yr, float r) 
+{
+    return (yr + (x - xr) * sin(M_PI * 2 * r / 360.0) + (y - yr) * cos(M_PI * 2 * r / 360.0));
+};
 
 #endif

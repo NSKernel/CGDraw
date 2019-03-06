@@ -151,11 +151,12 @@ int exec_next_instr() {
           return_code = EXEC_OK;
           break;
         case I_ROTATE:
-          printf("cgdraw: unimplemented\n");
+          obj_rotate(instr->id, instr->x, instr->y, instr->r);
+          return_code = EXEC_OK;
           break;
         case I_SCALE:
-          printf("cgdraw: unimplemented\n");
-
+          obj_scale(instr->id, instr->x, instr->y, instr->s);
+          return_code = EXEC_OK;
           break;
         case I_CLIP:
           printf("cgdraw: unimplemented\n");

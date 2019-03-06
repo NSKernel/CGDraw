@@ -24,7 +24,7 @@
 struct instruction *get_next_instruction();
 void free_instr();
 
-inline struct instruction *_parse_reset_canvas() 
+static inline struct instruction *_parse_reset_canvas() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -33,7 +33,7 @@ inline struct instruction *_parse_reset_canvas()
     return instr;
 };
 
-inline struct instruction *_parse_save_canvas() 
+static inline struct instruction *_parse_save_canvas() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -43,7 +43,7 @@ inline struct instruction *_parse_save_canvas()
     return instr;
 };
 
-inline struct instruction *_parse_set_color() 
+static inline struct instruction *_parse_set_color() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -52,7 +52,7 @@ inline struct instruction *_parse_set_color()
     return instr;
 };
 
-inline struct instruction *_parse_draw_line() 
+static inline struct instruction *_parse_draw_line() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
     char algorithm[100];
@@ -78,7 +78,7 @@ inline struct instruction *_parse_draw_line()
  */
 struct instruction *_parse_draw_polygon();
 
-inline struct instruction *_parse_draw_ellipse() 
+static inline struct instruction *_parse_draw_ellipse() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -93,7 +93,7 @@ inline struct instruction *_parse_draw_ellipse()
  */
 struct instruction *_parse_draw_curve();
 
-inline struct instruction *_parse_translate() 
+static inline struct instruction *_parse_translate() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -102,7 +102,7 @@ inline struct instruction *_parse_translate()
     return instr;
 };
 
-inline struct instruction *_parse_rotate() 
+static inline struct instruction *_parse_rotate() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -111,7 +111,7 @@ inline struct instruction *_parse_rotate()
     return instr;
 };
 
-inline struct instruction *_parse_scale() 
+static inline struct instruction *_parse_scale() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
 
@@ -120,7 +120,7 @@ inline struct instruction *_parse_scale()
     return instr;
 };
 
-inline struct instruction *_parse_clip() 
+static inline struct instruction *_parse_clip() 
 {
     struct instruction *instr = malloc(sizeof(struct instruction));
     char algorithm[100];

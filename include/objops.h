@@ -12,5 +12,7 @@
 #define OBJOPS_H
 
 void obj_translate(int id, float dx, float dy);
+void obj_rotate(int id, float x, float y, float r);
+void obj_scale(int id, float x, float y, float s);
 
 #endif

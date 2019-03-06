@@ -14,6 +14,9 @@
 #include <grapheng.h>
 #include <exec.h>
 
+extern inline float _rotate_point_x(float x, float y, float xr, float yr, float r);
+extern inline float _rotate_point_y(float x, float y, float xr, float yr, float r);
+
 #define CURVE_STEP   0.001
 
 void superdraw_line_dda(float x1, float y1, float x2, float y2) {
@@ -144,6 +147,122 @@ void superdraw_ellipse(float x, float y, float rx, float ry) {
         draw_pixel(current_color.R, current_color.G, current_color.B, (int)(x - xi + 0.5), (int)(y - yi + 0.5)); 
         draw_pixel(current_color.R, current_color.G, current_color.B, (int)(x + xi + 0.5), (int)(y - yi + 0.5)); 
         draw_pixel(current_color.R, current_color.G, current_color.B, (int)(x - xi + 0.5), (int)(y + yi + 0.5));
+
+        if(d2 > 0)
+        {
+            yi--;
+            dy = dy - (2 * (rx * rx));
+            d2 = d2 - dy + (rx * rx);
+        }
+        else
+        {
+            xi++;
+            yi--;
+            dy = dy - (2 * (rx * rx));
+            dx = dx + (2 * (ry * ry));
+            d2 = d2 + dx - dy + (rx * rx);
+        }
+    } while(yi >= 0);
+}
+
+void superdraw_ellipse_rotate(float x, float y, float rx, float ry, float r) {
+    int xi, yi;
+    float d1, d2, dx, dy;
+    float xlast1, ylast1;
+    float xnew1, ynew1;
+    float xlast2, ylast2;
+    float xnew2, ynew2;
+    float xlast3, ylast3;
+    float xnew3, ynew3;
+    float xlast4, ylast4;
+    float xnew4, ynew4;
+    xi = 0;                  // take start position as (0, ry)
+    yi = (int)(ry + 0.5);    // finding decision parameter d1
+    d1 = (ry * ry) - ((rx * rx) * ry) + (0.25 * (rx * rx));
+    dx = 2 * (ry * ry) * xi;
+    dy = 2 * (rx * rx) * yi;
+    xlast1 = _rotate_point_x(xi, yi, 0, 0, r);
+    ylast1 = _rotate_point_y(xi, yi, 0, 0, r);
+    xlast2 = _rotate_point_x(-xi, -yi, 0, 0, r);
+    ylast2 = _rotate_point_y(-xi, -yi, 0, 0, r);
+    xlast3 = _rotate_point_x(xi, -yi, 0, 0, r);
+    ylast3 = _rotate_point_y(xi, -yi, 0, 0, r);
+    xlast4 = _rotate_point_x(-xi, yi, 0, 0, r);
+    ylast4 = _rotate_point_y(-xi, yi, 0, 0, r);
+
+    // region one
+    do
+    {
+        xnew1 = _rotate_point_x(xi, yi, 0, 0, r);
+        ynew1 = _rotate_point_y(xi, yi, 0, 0, r);
+        xnew2 = _rotate_point_x(-xi, -yi, 0, 0, r);
+        ynew2 = _rotate_point_y(-xi, -yi, 0, 0, r);
+        xnew3 = _rotate_point_x(xi, -yi, 0, 0, r);
+        ynew3 = _rotate_point_y(xi, -yi, 0, 0, r);
+        xnew4 = _rotate_point_x(-xi, yi, 0, 0, r);
+        ynew4 = _rotate_point_y(-xi, yi, 0, 0, r);
+        superdraw_line_bresenham((int)(x + xlast1 + 0.5), (int)(y + ylast1 + 0.5),
+            (int)(x + xnew1 + 0.5), (int)(y + ynew1 + 0.5));
+        superdraw_line_bresenham((int)(x + xlast2 + 0.5), (int)(y + ylast2 + 0.5),
+            (int)(x + xnew2 + 0.5), (int)(y + ynew2 + 0.5));
+        superdraw_line_bresenham((int)(x + xlast3 + 0.5), (int)(y + ylast3 + 0.5),
+            (int)(x + xnew3 + 0.5), (int)(y + ynew3 + 0.5));
+        superdraw_line_bresenham((int)(x + xlast4 + 0.5), (int)(y + ylast4 + 0.5),
+            (int)(x + xnew4 + 0.5), (int)(y + ynew4 + 0.5));
+        xlast1 = xnew1;
+        ylast1 = ynew1;
+        xlast2 = xnew2;
+        ylast2 = ynew2;
+        xlast3 = xnew3;
+        ylast3 = ynew3;
+        xlast4 = xnew4;
+        ylast4 = ynew4;
+
+        if (d1 < 0)
+        {
+            xi++;
+            dx = dx + (2 * (ry * ry));
+            d1 = d1 + dx + (ry * ry);
+        }
+        else
+        {
+            xi++;
+            yi--;
+            dx = dx + (2 * (ry * ry));
+            dy = dy - (2 * (rx * rx));
+            d1 = d1 + dx - dy + (ry * ry);
+        }
+    } while(dx < dy);
+
+    d2 = (ry * ry) * (xi + 0.5) * (xi + 0.5) + (rx * rx) * (yi - 1) * (yi - 1) - ((rx * rx) * (ry * ry));
+
+    // region two
+    do
+    {
+        xnew1 = _rotate_point_x(xi, yi, 0, 0, r);
+        ynew1 = _rotate_point_y(xi, yi, 0, 0, r);
+        xnew2 = _rotate_point_x(-xi, -yi, 0, 0, r);
+        ynew2 = _rotate_point_y(-xi, -yi, 0, 0, r);
+        xnew3 = _rotate_point_x(xi, -yi, 0, 0, r);
+        ynew3 = _rotate_point_y(xi, -yi, 0, 0, r);
+        xnew4 = _rotate_point_x(-xi, yi, 0, 0, r);
+        ynew4 = _rotate_point_y(-xi, yi, 0, 0, r);
+        superdraw_line_bresenham((int)(x + xlast1 + 0.5), (int)(y + ylast1 + 0.5),
+            (int)(x + xnew1 + 0.5), (int)(y + ynew1 + 0.5));
+        superdraw_line_bresenham((int)(x + xlast2 + 0.5), (int)(y + ylast2 + 0.5),
+            (int)(x + xnew2 + 0.5), (int)(y + ynew2 + 0.5));
+        superdraw_line_bresenham((int)(x + xlast3 + 0.5), (int)(y + ylast3 + 0.5),
+            (int)(x + xnew3 + 0.5), (int)(y + ynew3 + 0.5));
+        superdraw_line_bresenham((int)(x + xlast4 + 0.5), (int)(y + ylast4 + 0.5),
+            (int)(x + xnew4 + 0.5), (int)(y + ynew4 + 0.5));
+        xlast1 = xnew1;
+        ylast1 = ynew1;
+        xlast2 = xnew2;
+        ylast2 = ynew2;
+        xlast3 = xnew3;
+        ylast3 = ynew3;
+        xlast4 = xnew4;
+        ylast4 = ynew4;
 
         if(d2 > 0)
         {
