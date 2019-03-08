@@ -132,6 +132,8 @@ int objmgr_full_render() {
             case T_ELLIPSE_R:
               superdraw_ellipse_rotate(objects[i]->x, objects[i]->y, objects[i]->rx, objects[i]->ry, objects[i]->r);
               break;
+            case T_DIED:
+              break;;
             default:
               printf("cgdraw: \033[0;31minternel error\033[0m: unexpected object type in full redraw. objit = %d, objcount = %d\n", i, obj_count);
               return OBJMGR_ERROR;

@@ -18,8 +18,6 @@
 #ifndef EXEC_H
 #define EXEC_H
 
-color_set current_color;
-
 inline int _exec_reset_canvas(int width, int height) 
 {
     if (canvas_valid) {

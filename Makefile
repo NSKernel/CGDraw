@@ -10,6 +10,7 @@
 include config
 
 CFLAGS	= -Wall -Werror -c -I./include -MD
+LDFLAGS = 
 
 SRCS = $(shell find src -name "*.c")
 OBJS = $(addprefix build/, $(addsuffix .o,  $(notdir $(basename $(SRCS)))))
@@ -28,10 +29,15 @@ else
 	BUILDSTR = "\"$(BUILD)\""
 endif
 
-.PHONYL: run clean
+UNAME = $(shell uname)
+ifeq ($(UNAME), Darwin)
+	LDFLAGS += 
+endif
+
+.PHONYL: clean
 
 build/cgdraw: $(OBJS)
-	@$(LD) -o $@ $(OBJS) -lc
+	@$(LD) -o $@ $(OBJS) -lc $(LDFLAGS)
 	@echo "  LD    " $<
 
 build/%.o: src/%.c

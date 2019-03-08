@@ -18,7 +18,8 @@
 static const char *opt_string = "vV";
 static const struct option long_opts[] = {
     { "verbose", no_argument, NULL, 'v' },
-    { "version", required_argument, NULL, 'V' },
+    { "version", no_argument, NULL, 'V' },
+    { "interactive", no_argument, NULL, 'i' },
     { NULL, no_argument, NULL, 0 }
 };
 

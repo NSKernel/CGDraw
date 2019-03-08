@@ -147,19 +147,41 @@ int exec_next_instr() {
           return_code = _exec_draw_curve(instr->id, instr->n, instr->algorithm, instr->xarray, instr->yarray);
           break;
         case I_TRANSLATE:
-          obj_translate(instr->id, instr->dx, instr->dy);
-          return_code = EXEC_OK;
+          if (obj_translate(instr->id, instr->dx, instr->dy) == OBJOPS_OK)
+              return_code = EXEC_OK;
+          else
+              return_code = EXEC_ERROR;
           break;
         case I_ROTATE:
-          obj_rotate(instr->id, instr->x, instr->y, instr->r);
-          return_code = EXEC_OK;
+          if (obj_rotate(instr->id, instr->x, instr->y, instr->r) == OBJOPS_OK)
+              return_code = EXEC_OK;
+          else
+              return_code = EXEC_ERROR;
           break;
         case I_SCALE:
-          obj_scale(instr->id, instr->x, instr->y, instr->s);
-          return_code = EXEC_OK;
+          if (obj_scale(instr->id, instr->x, instr->y, instr->s) == OBJOPS_OK)
+              return_code = EXEC_OK;
+          else
+              return_code = EXEC_ERROR;
           break;
         case I_CLIP:
-          printf("cgdraw: unimplemented\n");
+          if (instr->algorithm == A_COHEN_SUTHERLAND) {
+              if (obj_clip_cs(instr->id, instr->x1, instr->y1, instr->x2, instr->y2) == OBJOPS_OK)
+                  return_code = EXEC_OK;
+              else
+                  return_code = EXEC_ERROR;
+          }
+          else if (instr->algorithm == A_LIANG_BARSKY) {
+              if (obj_clip_lb(instr->id, instr->x1, instr->y1, instr->x2, instr->y2) == OBJOPS_OK)
+                  return_code = EXEC_OK;
+              else
+                  return_code = EXEC_ERROR;
+          }
+          else {
+              // should not be here
+              printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in clip. THIS SHOULD NOT HAPPEN\n");
+              return_code = EXEC_ERROR;
+          }
           break;
         default:
           // you should not be here

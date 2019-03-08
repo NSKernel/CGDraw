@@ -25,6 +25,7 @@
 #define T_ELLIPSE    0x3
 #define T_CURVE      0x4
 #define T_ELLIPSE_R  0x5
+#define T_DIED       0x6
 
 typedef struct cgdraw_object_t {
     uint32_t id;

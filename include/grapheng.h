@@ -27,6 +27,7 @@ typedef struct color_set_t {
 
 char canvas_valid;
 bmp_img current_canvas;
+color_set current_color;
 
 void init_canvas(int width, int height);
 void free_canvas();
