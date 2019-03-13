@@ -31,7 +31,7 @@ endif
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
-	LDFLAGS += 
+	LDFLAGS += -lSystem -macosx_version_min 10.14
 endif
 
 .PHONYL: clean
