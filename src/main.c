@@ -47,6 +47,12 @@ int main(int argc, char **argv) {
         opt = getopt_long(argc, argv, opt_string, long_opts, &long_index);
     }
     
+    if (global_args.print_version) {
+        printf("CGDraw version %s.%s.%s\n", VERSION, SUBVERSION, BUILD);
+        printf("Copyright (C) 2019 NSKernel. All rights reserved.\n");
+        return 0;
+    }
+
     if (argc - optind - 1 > 0) {
         global_args.instr_file_path = argv[optind];
         global_args.dest_dir = argv[optind + 1];
@@ -59,14 +65,6 @@ int main(int argc, char **argv) {
 
     if (argc - optind - 1 > 1) {
         printf("cgdraw: warning: ignoring extra arguments\n");
-    }
-
-    if (global_args.print_version) {
-        if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0) {
-            printf("CGDraw version %s.%s.%s\n", VERSION, SUBVERSION, BUILD);
-            printf("Copyright (C) 2019 NSKernel. All rights reserved.\n");
-            return 0;
-        }
     }
 
     // open instr file

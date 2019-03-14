@@ -20,7 +20,6 @@ CC = gcc
 
 VERSIONSTR = "\"$(VERSION)\""
 SUBVERSIONSTR = "\"$(SUBVERSION)\""
-DEBUG ?= 1
 ifeq ($(DEBUG), 1)
     CFLAGS += -DDEBUG -ggdb
 	BUILDSTR = "\"$(BUILD)-debug\""
