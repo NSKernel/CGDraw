@@ -36,23 +36,24 @@ endif
 .PHONYL: clean
 
 build/cgdraw: $(OBJS)
+	@echo "  LD    " $@
 	@$(LD) -o $@ $(OBJS) -lc $(LDFLAGS)
-	@echo "  LD    " $<
+	@echo $@ "is ready"
 
 build/%.o: src/%.c
 	@mkdir -p build
+	@echo "  CC    " $@
 	@$(CC) $(CFLAGS) -o $@ $< -D VERSION=$(VERSIONSTR) -D SUBVERSION=$(SUBVERSIONSTR) -D BUILD=$(BUILDSTR)
-	@echo "  CC    " $<
 
 build/%.o: src/libbmp/%.c
 	@mkdir -p build
+	@echo "  CC [L]" $@
 	@$(CC) $(CFLAGS) -o $@ $< -D VERSION=$(VERSIONSTR) -D SUBVERSION=$(SUBVERSIONSTR) -D BUILD=$(BUILDSTR)
-	@echo "  CC    " $<
 
 build/%.o: src/grapheng/%.c
 	@mkdir -p build
+	@echo "  CC    " $@
 	@$(CC) $(CFLAGS) -o $@ $< -D VERSION=$(VERSIONSTR) -D SUBVERSION=$(SUBVERSIONSTR) -D BUILD=$(BUILDSTR)
-	@echo "  CC    " $<
 
 run: build/cgdraw
 	./build/cgdraw

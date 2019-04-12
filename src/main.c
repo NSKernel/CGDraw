@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
+#include <sys/stat.h>
 
 #include <cgdraw.h>
 #include <grapheng.h>
@@ -72,6 +73,11 @@ int main(int argc, char **argv) {
     if (instr_file_pointer == NULL) {
         perror("cgdraw: cannot open instruction file\n");
         return -1;
+    }
+
+    struct stat st;
+    if (stat(global_args.dest_dir, &st) != 0) {
+        mkdir(global_args.dest_dir, 0777);
     }
     
     // set current canvas invalid because it is not initialized.

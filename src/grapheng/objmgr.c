@@ -17,7 +17,7 @@
 #include <objmgr.h>
 
 uint32_t obj_count = 0;
-cgdraw_object **objects;
+cgdraw_object **objects = NULL;
 
 void objmgr_close() {
     while (obj_count--) {
@@ -26,6 +26,9 @@ void objmgr_close() {
             free(objects[obj_count]->yarray);
         }
         free(objects[obj_count]);
+    }
+    if (objects != NULL) {
+        free(objects);
     }
 }
 
@@ -133,7 +136,7 @@ int objmgr_full_render() {
               superdraw_ellipse_rotate(objects[i]->x, objects[i]->y, objects[i]->rx, objects[i]->ry, objects[i]->r);
               break;
             case T_DIED:
-              break;;
+              break;
             default:
               printf("cgdraw: \033[0;31minternel error\033[0m: unexpected object type in full redraw. objit = %d, objcount = %d\n", i, obj_count);
               return OBJMGR_ERROR;

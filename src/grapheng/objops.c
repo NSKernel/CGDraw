@@ -248,19 +248,17 @@ int obj_clip_cs(int id, float x1, float y1, float x2, float y2) {
             obj->x1 = xclipped;
             obj->y1 = yclipped;
             outcode1 = _obj_cs_outcode(xclipped, yclipped, x1, y1, x2, y2);
-            printf("1 %f %f %f %f %f %f %d\n", obj->x1, obj->y1, x1, y1, x2, y2, outcode1);
         }
         else {
             obj->x2 = xclipped;
             obj->y2 = yclipped;
             outcode2 = _obj_cs_outcode(xclipped, yclipped, x1, y1, x2, y2);
-            printf("1 %f %f %f %f %f %f %d\n", obj->x2, obj->y2, x1, y1, x2, y2, outcode2);
         }
     }
 
     if (!accept) {
         obj->type = T_DIED;
-        printf("cgdraw: \033[0;33mwarning\033[0m: an object was died due to clipping\n");
+        printf("cgdraw: \033[0;33mwarning\033[0m: an object died due to clipping\n");
     }
 
     return OBJOPS_OK;
@@ -332,7 +330,7 @@ int obj_clip_lb(int id, float x1, float y1, float x2, float y2) {
     
     if (flag) {
         obj->type = T_DIED;
-        printf("cgdraw: \033[0;33mwarning\033[0m: an object was died due to clipping\n");
+        printf("cgdraw: \033[0;33mwarning\033[0m: an object died due to clipping\n");
         return OBJOPS_OK;
     }
 

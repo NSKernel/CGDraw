@@ -319,14 +319,14 @@ void superdraw_curve_b_spline(int n, float *xarray, float *yarray) {
 
     for(int k = 0; k < n - 3; k++)
     {
-        double a0 = (xarray[k] + 4 * xarray[k+1] + xarray[k+2]) / 6;
-        double a1 = -(xarray[k] - xarray[k+2]) / 2;
-        double a2 = (xarray[k+2] - 2 * xarray[k+1] + xarray[k]) / 2;
-        double a3 = -(xarray[k] - 3 * xarray[k+1] + 3 * xarray[k+2] - xarray[k+3]) / 6;
-        double b0 = (yarray[k] + 4 * yarray[k+1] + yarray[k+2]) / 6;
+        double a0 = (xarray[k] + 4 * xarray[k + 1] + xarray[k + 2]) / 6;
+        double a1 = -(xarray[k] - xarray[k + 2]) / 2;
+        double a2 = (xarray[k+2] - 2 * xarray[k + 1] + xarray[k]) / 2;
+        double a3 = -(xarray[k] - 3 * xarray[k + 1] + 3 * xarray[k + 2] - xarray[k + 3]) / 6;
+        double b0 = (yarray[k] + 4 * yarray[k + 1] + yarray[k+2]) / 6;
         double b1 = -(yarray[k] - yarray[k+2]) / 2;
-        double b2 = (yarray[k+2] - 2 * yarray[k+1] + yarray[k]) / 2;
-        double b3 = -(yarray[k] - 3 * yarray[k+1] + 3 * yarray[k+2] - yarray[k+3]) / 6;
+        double b2 = (yarray[k + 2] - 2 * yarray[k + 1] + yarray[k]) / 2;
+        double b3 = -(yarray[k] - 3 * yarray[k + 1] + 3 * yarray[k + 2] - yarray[k + 3]) / 6;
         xlast = a0;
         ylast = b0;
         for (t = CURVE_STEP; t < 1; t += CURVE_STEP)

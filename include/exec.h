@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <cgdraw.h>
 #include <grapheng.h>
@@ -30,13 +31,20 @@ inline int _exec_reset_canvas(int width, int height)
 
 inline int _exec_save_canvas(const char *path) 
 {
+    char *target_path;
     if (canvas_valid) {
+        target_path = malloc(sizeof(char) * (strlen(global_args.dest_dir) + strlen(path) + 6));
+        strncpy(target_path, global_args.dest_dir, strlen(global_args.dest_dir) + 1);
+        target_path[strlen(global_args.dest_dir)] = '/';
+        target_path[strlen(global_args.dest_dir) + 1] = 0;
+        strncpy(target_path + strlen(target_path), path, strlen(path) + 1);
+        strncpy(target_path + strlen(target_path), ".bmp", strlen(".bmp") + 1);
         objmgr_full_render();
-        if (save_canvas(path) != SAVE_OK) {
-            printf("cgdraw: \033[0;31merror\033[0m: failed to save bmp to %s\n", path);
+        if (save_canvas(target_path) != SAVE_OK) {
+            printf("cgdraw: \033[0;31merror\033[0m: failed to save bmp to %s\n", target_path);
             return EXEC_ERROR;
         }
-        printf("cgdraw: \033[0;32minfo\033[0m: successfully saved canvas to %s\n", path);
+        printf("cgdraw: \033[0;32minfo\033[0m: successfully saved canvas to %s\n", target_path);
         return EXEC_OK;
     }
     printf("cgdraw: \033[0;31merror\033[0m: no canvas to be saved\n");
