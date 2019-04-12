@@ -9,7 +9,7 @@
 
 include config
 
-CFLAGS	= -Wall -Werror -c -I./include -MD
+CFLAGS	= -Wall -Werror -Wno-unused-result -Wno-unused-value -c -I./include -MD
 LDFLAGS = 
 
 SRCS = $(shell find src -name "*.c")
