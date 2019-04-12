@@ -10,7 +10,7 @@
 include config
 
 CFLAGS	= -Wall -Werror -Wno-unused-result -Wno-unused-value -c -I./include -MD
-LDFLAGS = 
+LDFLAGS = -lm
 
 SRCS = $(shell find src -name "*.c")
 OBJS = $(addprefix build/, $(addsuffix .o,  $(notdir $(basename $(SRCS)))))
@@ -30,14 +30,14 @@ endif
 
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin)
-	LDFLAGS += -lSystem -macosx_version_min 10.14
+	LDFLAGS += 
 endif
 
 .PHONYL: clean
 
 build/cgdraw: $(OBJS)
 	@echo "  LD    " $@
-	@$(LD) -o $@ $(OBJS) -lc $(LDFLAGS)
+	@$(CC) -o $@ $(OBJS) -lc $(LDFLAGS)
 	@echo $@ "is ready"
 
 build/%.o: src/%.c
