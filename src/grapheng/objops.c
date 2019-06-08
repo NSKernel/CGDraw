@@ -11,6 +11,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include <cgdraw.h>
 #include <grapheng.h>
 #include <objmgr.h>
 #include <objops.h>

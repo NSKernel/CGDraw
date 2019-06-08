@@ -85,7 +85,12 @@ int _exec_draw_polygon(uint32_t id, int n, uint8_t algorithm, float *xarray, flo
     if (canvas_valid) {
         if (algorithm != A_DDA && algorithm != A_BRESENHAM) {
             // should not be here
-            printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw polygon. THIS SHOULD NOT HAPPEN\n");
+            if (global_args.no_color) {
+                printf("cgdraw: internel error: unexpected algorithm in draw polygon. THIS SHOULD NOT HAPPEN\n");
+            }
+            else {
+                printf("cgdraw: \033[0;31minternel error\033[0m: unexpected algorithm in draw polygon. THIS SHOULD NOT HAPPEN\n");
+            }
             return EXEC_ERROR;
         }
         object = malloc(sizeof(cgdraw_object));
@@ -103,7 +108,13 @@ int _exec_draw_polygon(uint32_t id, int n, uint8_t algorithm, float *xarray, flo
         objmgr_commit_object(object);
         return EXEC_OK;
     }
-    printf("cgdraw: \033[0;31merror\033[0m: no canvas to draw\n");
+    if (global_args.no_color) {
+        printf("cgdraw: error: no canvas to draw\n");
+    }
+    else {
+        printf("cgdraw: \033[0;31merror\033[0m: no canvas to draw\n");
+    }
+    
     return EXEC_ERROR;
 }
 

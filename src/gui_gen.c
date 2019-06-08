@@ -23,19 +23,35 @@ int gui_save_image(const char *target_path)
     if (canvas_valid) {
         objmgr_full_render();
         if (save_canvas(target_path) != SAVE_OK) {
-            printf("cgdraw: \033[0;31merror\033[0m: failed to save bmp to %s\n", target_path);
+            if (global_args.no_color) {
+                printf("cgdraw: error: failed to save bmp to %s\n", target_path);
+            }
+            else {
+                printf("cgdraw: \033[0;31merror\033[0m: failed to save bmp to %s\n", target_path);
+            }
             return EXEC_ERROR;
         }
         return EXEC_OK;
     }
-    printf("cgdraw: \033[0;31merror\033[0m: no canvas to be saved\n");
+    if (global_args.no_color) {
+        printf("cgdraw: error: no canvas to be saved\n");
+    }
+    else {
+        printf("cgdraw: \033[0;31merror\033[0m: no canvas to be saved\n");
+    }
     return EXEC_ERROR;
 };
 
 int gui_save_object(const char *target_path) {
     FILE *target_file = fopen(target_path, "w+");
     if (target_file == NULL) {
-        printf("cgdraw: \033[0;31merror\033[0m: failed to write csv\n");
+        if (global_args.no_color) {
+            printf("cgdraw: error: failed to write csv\n");
+        }
+        else {
+            printf("cgdraw: \033[0;31merror\033[0m: failed to write csv\n");
+        }
+        
         return EXEC_ERROR;
     }
     objmgr_dump_to_csv(target_file);

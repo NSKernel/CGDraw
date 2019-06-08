@@ -19,9 +19,12 @@ struct global_args_t {
     char print_version;          /* -V or --version */
     char verbose;                /* -v or --verbose */
     char gui_enabled;            /* -g or --gui */
+    char supress_warning;        /* -s or --supress-warning */
+    char no_color;               /* -n or --no-color */
     char *instr_file_path;
     char *dest_dir;
     char *gui_file_path;
+    FILE *debug_file;
     
 } global_args;
 
