@@ -15,12 +15,14 @@
 
 #include <cgdraw.h>
 #include <grapheng.h>
+#include <gui_gen.h>
 
-static const char *opt_string = "vV";
+static const char *opt_string = "vg:iV";
 static const struct option long_opts[] = {
     { "verbose", no_argument, NULL, 'v' },
     { "version", no_argument, NULL, 'V' },
     { "interactive", no_argument, NULL, 'i' },
+    { "gui-files", required_argument, NULL, 'g' },
     { NULL, no_argument, NULL, 0 }
 };
 
@@ -32,6 +34,7 @@ int main(int argc, char **argv) {
     // parse arguments
     global_args.print_version = 0;
     global_args.verbose = 0;
+    global_args.gui_enabled = 0;
 
     opt = getopt_long(argc, argv, opt_string, long_opts, &long_index);
     while (opt != -1) {
@@ -41,6 +44,14 @@ int main(int argc, char **argv) {
               break;
             case 'v':
               global_args.verbose = 1;
+              break;
+            case 'g':
+              global_args.gui_enabled = 1;
+              global_args.gui_file_path = optarg;
+              break;
+            case '?':
+              // getopt_long will report problem by itself
+              return -1;
             default:
               /* You won't actually get here. */
               break;
@@ -88,6 +99,14 @@ int main(int argc, char **argv) {
     if (exec_status == EXEC_ERROR) {
         perror("cgdraw: error occoured. exiting\n");
         return -1;
+    }
+    // gracefully exited
+    // now check if gui is enabled
+    if (global_args.gui_enabled) {
+        if (gui_save(global_args.gui_file_path) != EXEC_OK) {
+            perror("cgdraw: error occoured. exiting\n");
+            return -1;
+        }
     }
 
     return 0;

@@ -59,5 +59,6 @@ int objmgr_init();
 cgdraw_object *objmgr_get_object(int id);
 int objmgr_commit_object(cgdraw_object *object);
 int objmgr_full_render();
+void objmgr_dump_to_csv(FILE *target_file);
 
 #endif

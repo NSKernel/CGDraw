@@ -84,7 +84,7 @@ void superdraw_line_bresenham(float x1, float y1, float x2, float y2) {
     deltax = x2 - x1;
     deltay = y2 - y1;
     error = 0;
-    deltaerr = deltay / deltax;
+    deltaerr = fabs(deltay / deltax);
     y = (int)(y1 + 0.5);
     if (y1 < y2)
         ystep = 1;

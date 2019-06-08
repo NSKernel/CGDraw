@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #include <exec.h>
 #include <grapheng.h>
@@ -148,4 +149,45 @@ int objmgr_full_render() {
     current_color.G = G_backup;
     current_color.B = B_backup;
     return OBJMGR_OK;
+}
+
+void objmgr_dump_to_csv(FILE *target_file) {
+    int i, j;
+    float xmin = INT_MAX;
+    float xmax = -INT_MAX;
+    float ymin = INT_MAX;
+    float ymax = -INT_MAX;
+    for (i = 0; i < obj_count; i++) {
+        switch(objects[i]->type) {
+            case T_LINE:
+                xmin = (objects[i]->x1 > objects[i]->x2 ? objects[i]->x2 : objects[i]->x1);
+                xmax = (objects[i]->x1 > objects[i]->x2 ? objects[i]->x1 : objects[i]->x2);
+                ymin = (objects[i]->y1 > objects[i]->y2 ? objects[i]->y2 : objects[i]->y1);
+                ymax = (objects[i]->y1 > objects[i]->y2 ? objects[i]->y1 : objects[i]->y2);
+                fprintf(target_file, "%d,%d,%f,%f,%f,%f\n", objects[i]->id, objects[i]->type, xmin, xmax, ymin, ymax);
+                break;
+            case T_CURVE: 
+            case T_POLYGON:
+                for (j = 0; j < objects[i]->n; j++) {
+                    if (objects[i]->xarray[j] > xmax) {
+                        xmax = objects[i]->xarray[j];
+                    }
+                    if (objects[i]->xarray[j] < xmin) {
+                        xmin = objects[i]->xarray[j];
+                    }
+                    if (objects[i]->yarray[j] > ymax) {
+                        ymax = objects[i]->yarray[j];
+                    }
+                    if (objects[i]->yarray[j] < ymin) {
+                        ymin = objects[i]->yarray[j];
+                    }
+                }
+                fprintf(target_file, "%d,%d,%f,%f,%f,%f\n", objects[i]->id, objects[i]->type, xmin, xmax, ymin, ymax);
+                break;
+            case T_ELLIPSE:
+            case T_ELLIPSE_R:
+                fprintf(target_file, "%d,%d,0,0,0,0\n", objects[i]->id, objects[i]->type);
+                break;
+        }
+    }
 }
