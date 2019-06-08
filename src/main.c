@@ -40,8 +40,6 @@ int main(int argc, char **argv) {
     global_args.supress_warning = 0;
     global_args.no_color = 0;
 
-    global_args.debug_file = fopen("/Users/ZhaoShixuan/Desktop/debug.txt", "w+");
-
     opt = getopt_long(argc, argv, opt_string, long_opts, &long_index);
     while (opt != -1) {
         switch (opt) {

@@ -24,7 +24,6 @@ struct global_args_t {
     char *instr_file_path;
     char *dest_dir;
     char *gui_file_path;
-    FILE *debug_file;
     
 } global_args;
 
