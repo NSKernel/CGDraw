@@ -4,7 +4,7 @@ An instruction based 2D CG renderer. This project is opensourced under GPL v3 wi
 
 ## What it does
 
-It can render 2D objects including lines, polygons, ellipses and curves. It is still under construction and details will be disclosed later.
+It can render 2D objects including lines, polygons, ellipses and curves. It can also scale, rotate an object or clip a line. Detailed instruction specification will be disclosed later.
 
 ## Compile and run
 
