@@ -22,9 +22,11 @@ VERSIONSTR = "\"$(VERSION)\""
 SUBVERSIONSTR = "\"$(SUBVERSION)\""
 ifeq ($(DEBUG), 1)
     CFLAGS += -DDEBUG -ggdb
+	LDFLAGS += -DDEBUG -ggdb
 	BUILDSTR = "\"$(BUILD)-debug\""
 else
 	CFLAGS += -O2
+	LDFLAGS += -O2
 	BUILDSTR = "\"$(BUILD)\""
 endif
 
