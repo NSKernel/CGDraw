@@ -14,6 +14,6 @@ Type `make`. Run `cgdraw <path to the source> <path to the expected exported dir
 
 You need to install GCC/Clang, GNU Make. The project is built for Linux and macOS based machines. 
 
-# CGDraw GUI
+## CGDraw GUI
 
-A macOS app that performs as a GUI of CGDraw. It supoorts mouse interactions on canvas.
+A macOS app that performs as a GUI of CGDraw. It supoorts mouse interactions on canvas. You may check it at [CGDraw-GUI](https://github.com/NSKernel/CGDraw-GUI)
